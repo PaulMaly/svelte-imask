@@ -1,0 +1,43 @@
+{
+    "name": "svelte-imask",
+    "version": "1.0.0",
+    "description": "Svelte 3 IMask action and component",
+    "svelte": "src/index.html",
+    "main": "index.js",
+    "module": "index.mjs",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "rollup -c",
+        "prepublishOnly": "npm run build",
+        "prepublish": "npm run lint && npm run build",
+        "lint": "eslint src"
+    },
+    "files": [
+        "src",
+        "index.mjs",
+        "index.js"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PaulMaly/svelte-imask.git"
+    },
+    "keywords": [
+        "svelte"
+    ],
+    "author": "PaulMaly",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/PaulMaly/svelte-imask/issues"
+    },
+    "homepage": "https://github.com/PaulMaly/svelte-imask#readme",
+    "devDependencies": {
+        "eslint": "latest",
+        "eslint-plugin-import": "latest",
+        "rollup": "latest",
+        "rollup-plugin-svelte": "latest",
+        "svelte": "beta"
+    },
+    "dependencies": {
+        "imask": "latest"
+    }
+}
