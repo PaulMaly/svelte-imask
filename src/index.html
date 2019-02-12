@@ -1,6 +1,17 @@
 <svelte:options bind:props={props}/>
 
-<input use:mask={opts} {...attrs}>
+<input 
+	use:mask={opts} 
+	{...attrs} 
+	on:input 
+	on:change 
+	on:search 
+	on:focus 
+	on:blur 
+	on:invalid 
+	on:accept 
+	on:complete 
+>
 
 <script>
 	import mask from './action.js';

@@ -1,7 +1,7 @@
 {
     "name": "svelte-imask",
     "version": "1.0.0",
-    "description": "Svelte 3 IMask action and component",
+    "description": "IMask action and component for Svelte 3",
     "svelte": "src/index.html",
     "main": "index.js",
     "module": "index.mjs",
