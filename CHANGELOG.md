@@ -1,5 +1,8 @@
 # svelte-imask changelog
 
+## 1.1.1
+* Add demo to README
+
 ## 1.1.0
 
 * Upgrade to latest version of Svelte

@@ -1,6 +1,6 @@
 # svelte-imask
 
-IMask input component and action for [Svelte 3](https://svelte.dev).
+IMask input component and action for [Svelte 3](https://svelte.dev). [demo](https://svelte.dev/repl/de6a6dcc92ee43d19ad2274599ba34c8?version=3.12.1)
 
 ## Usage
 
