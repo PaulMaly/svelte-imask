@@ -1,2 +1,2 @@
-export { default as useImask } from './action.js';
-export { default as IMaskInput } from './index.html';
+export { default as imask } from './action.js';
+export { default as MaskedInput } from './MaskedInput.svelte';

@@ -1,9 +1,10 @@
 import svelte from 'rollup-plugin-svelte';
+import resolve from 'rollup-plugin-node-resolve';
 import pkg from './package.json';
 
 const name = pkg.name
-                .replace(/^(@\S+\/)?(svelte-)?(\S+)/, '$3')
-                .replace(/^\w/, m => m.toUpperCase());
+				.replace(/^(@\S+\/)?(svelte-)?(\S+)/, '$3')
+				.replace(/-\w/g, m => m[1].toUpperCase());
 
 export default {
 	input: 'src/index.js',
@@ -12,6 +13,7 @@ export default {
 		{ file: pkg.main, 'format': 'umd', name }
 	],
 	plugins: [
-		svelte()
+		svelte(),
+		resolve()
 	]
 };

@@ -1,5 +1,3 @@
-<svelte:options bind:props={props}/>
-
 <input 
 	use:mask={opts} 
 	{...attrs} 
@@ -16,9 +14,9 @@
 <script>
 	import mask from './action.js';
 
-	let opts, attrs, props;
+	let opts, attrs;
 	$: {
-		let	{ options, ...other } = props;
+		let	{ options, ...other } = $$props;
 		attrs = other;
 		opts = options;
 	}

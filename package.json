@@ -1,8 +1,8 @@
 {
     "name": "svelte-imask",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "IMask action and component for Svelte 3",
-    "svelte": "src/index.html",
+    "svelte": "src/index.js",
     "main": "index.js",
     "module": "index.mjs",
     "scripts": {
@@ -35,7 +35,7 @@
         "eslint-plugin-import": "latest",
         "rollup": "latest",
         "rollup-plugin-svelte": "latest",
-        "svelte": "beta"
+        "svelte": "latest"
     },
     "dependencies": {
         "imask": "latest"
