@@ -35,6 +35,7 @@
         "eslint-plugin-import": "latest",
         "rollup": "latest",
         "rollup-plugin-svelte": "latest",
+        "rollup-plugin-node-resolve": "latest",
         "svelte": "latest"
     },
     "dependencies": {
