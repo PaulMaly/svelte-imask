@@ -1,5 +1,8 @@
 # svelte-imask changelog
 
+## 1.1.3
+* sync input value with imask
+
 ## 1.1.2
 * Bind unmaskedValue to MaskedInput prop `value`.
 
