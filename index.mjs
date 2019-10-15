@@ -4215,42 +4215,6 @@ function init(component, options, instance, create_fragment, not_equal, prop_nam
     }
     set_current_component(parent_component);
 }
-let SvelteElement;
-if (typeof HTMLElement !== 'undefined') {
-    SvelteElement = class extends HTMLElement {
-        constructor() {
-            super();
-            this.attachShadow({ mode: 'open' });
-        }
-        connectedCallback() {
-            // @ts-ignore todo: improve typings
-            for (const key in this.$$.slotted) {
-                // @ts-ignore todo: improve typings
-                this.appendChild(this.$$.slotted[key]);
-            }
-        }
-        attributeChangedCallback(attr, _oldValue, newValue) {
-            this[attr] = newValue;
-        }
-        $destroy() {
-            destroy_component(this, 1);
-            this.$destroy = noop;
-        }
-        $on(type, callback) {
-            // TODO should this delegate to addEventListener?
-            const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
-            callbacks.push(callback);
-            return () => {
-                const index = callbacks.indexOf(callback);
-                if (index !== -1)
-                    callbacks.splice(index, 1);
-            };
-        }
-        $set() {
-            // overridden by instance, if it has props
-        }
-    };
-}
 class SvelteComponent {
     $destroy() {
         destroy_component(this, 1);
@@ -4276,7 +4240,8 @@ function create_fragment(ctx) {
 	var input, mask_action, dispose;
 
 	var input_levels = [
-		ctx.attrs
+		ctx.attrs,
+		{ value: ctx.value }
 	];
 
 	var input_data = {};
@@ -4296,6 +4261,7 @@ function create_fragment(ctx) {
 				listen(input, "focus", ctx.focus_handler),
 				listen(input, "blur", ctx.blur_handler),
 				listen(input, "invalid", ctx.invalid_handler),
+				listen(input, "accept", ctx.accept_handler_1),
 				listen(input, "accept", ctx.accept_handler),
 				listen(input, "complete", ctx.complete_handler)
 			];
@@ -4308,7 +4274,8 @@ function create_fragment(ctx) {
 
 		p(changed, ctx) {
 			set_attributes(input, get_spread_update(input_levels, [
-				(changed.attrs) && ctx.attrs
+				(changed.attrs) && ctx.attrs,
+				(changed.value) && { value: ctx.value }
 			]));
 
 			if (typeof mask_action.update === 'function' && changed.opts) {
@@ -4331,6 +4298,8 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
+	let { value } = $$props;
+
 	let opts, attrs;
 
 	function input_handler(event) {
@@ -4365,19 +4334,23 @@ function instance($$self, $$props, $$invalidate) {
 		bubble($$self, event);
 	}
 
+	const accept_handler_1 = (e) => $$invalidate('value', value = e.detail.unmaskedValue);
+
 	$$self.$set = $$new_props => {
 		$$invalidate('$$props', $$props = assign(assign({}, $$props), $$new_props));
+		if ('value' in $$new_props) $$invalidate('value', value = $$new_props.value);
 	};
 
 	$$self.$$.update = ($$dirty = { $$props: 1 }) => {
 		{
-				let	{ options, ...other } = $$props;
+				let	{ value, options, ...other } = $$props;
 				$$invalidate('attrs', attrs = other);
 				$$invalidate('opts', opts = options);
 			}
 	};
 
 	return {
+		value,
 		opts,
 		attrs,
 		input_handler,
@@ -4388,6 +4361,7 @@ function instance($$self, $$props, $$invalidate) {
 		invalid_handler,
 		accept_handler,
 		complete_handler,
+		accept_handler_1,
 		$$props: $$props = exclude_internal_props($$props)
 	};
 }
@@ -4395,7 +4369,7 @@ function instance($$self, $$props, $$invalidate) {
 class MaskedInput extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, []);
+		init(this, options, instance, create_fragment, safe_not_equal, ["value"]);
 	}
 }
 
