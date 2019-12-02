@@ -7,27 +7,21 @@ function fire(el, name, detail) {
 
 export default function(node, options) {
 
-	if ( ! options) return;
-
-	let mask;
-
-	function init(options) {
-		if (mask) return mask.updateOptions(options);
-		mask = new IMask(node, options)
-			.on('accept', () => fire(node, 'accept', mask))
-			.on('complete', () => fire(node, 'complete', mask));
-	}
+	let imask;
 
 	function destroy() {
-		mask && mask.destroy();
+		imask && imask.destroy();
 	}
 
-	init(options);
+	function update(options) {
+		if ( ! options) return imask && destroy();
+		if (imask) return imask.updateOptions(options);
+		imask = new IMask(node, options);
+		imask.on('accept', () => fire(node, 'accept', imask));
+		imask.on('complete', () => fire(node, 'complete', imask));
+	}
 
-	return {
-		update(options) {
-			options ? init(options) : destroy();
-		},
-		destroy
-	};
+	update(options);
+
+	return { update, destroy };
 }

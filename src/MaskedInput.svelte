@@ -1,32 +1,31 @@
 <input
-	use:mask={opts}
+	use:imask={options}
 	{...attrs}
-	{value}
+	on:click
+	on:keydown
 	on:input
 	on:change
 	on:search
 	on:focus
 	on:blur
 	on:invalid
-    on:accept={accept}
+	on:accept={accept}
 	on:accept
 	on:complete
 >
 
 <script>
-	import mask from './action.js';
+	import { tick } from 'svelte';
+	import imask from './action.js';
 
 	export let value;
 
-	let opts, attrs;
-	$: {
-		let	{ value, options, ...other } = $$props;
-		attrs = other;
-		opts = options;
-	}
+	$: ({ options, ...attrs } = $$props);
 
-	function accept({ detail: mask }) {
-		value = mask.unmaskedValue;
-		mask.updateValue()
+	function accept({ detail: imask }) {
+		value = imask.unmaskedValue;
+		tick().then(() => {
+			imask.typedValue = value;
+		});
 	}
 </script>

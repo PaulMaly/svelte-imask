@@ -18,16 +18,26 @@ Then import `MaskedInput` component to your Svelte app. `options` prop will be p
 
 ```html
 <label>
-	<MaskedInput name="phone" type="tel" options={{ mask }} on:accept={accept} />
+  <MaskedInput 
+    bind:value={tel} 
+    options={options} 
+    on:complete={complete} 
+    name="phone" 
+    type="tel"
+  />
 </label>
  
 <script>
   import { MaskedInput } from 'svelte-imask';
 
-  let mask = '+{7}(000)000-00-00';
+  const options = {
+		mask: '+{7}(000)000-00-00'
+  };
+  
+  let tel;
 
-  function accept() {
-    console.log('accepted');
+  function complete({ detail: imask }) {
+    console.log('completed', imask);
   }
 </script>
 ```
@@ -36,24 +46,36 @@ OR import `imask` action to get full control.
 
 ```html
 <label>
-	<input use:imask={{ mask }} name="phone" type="tel" on:accept={accept}>
+  <input 
+    use:imask={options} 
+    on:accept={accept} 
+    on:complete={complete} 
+    name="phone" 
+    type="tel"
+  >
 </label>
  
 <script>
   import { imask } from 'svelte-imask';
 
-  let mask = '+{7}(000)000-00-00';
+  const options = {
+		mask: '+{7}(000)000-00-00'
+  };
 
-  function accept() {
-    console.log('accepted');
+  function accept({ detail: imask }) {
+    console.log('accepted', imask);
+  }
+
+  function complete({ detail: imask }) {
+    console.log('completed', imask);
   }
 </script>
 ```
 
 ## Events
 
-- `accept` - event fired on input when mask value has changed
-- `complete` - event fired when the value is completely filled
+- `accept` - event fires on input when the value has changed (imask instance in `event.detail`)
+- `complete` - event fires when the value is completely filled (imask instance in `event.detail`)
 
 ## License
 
